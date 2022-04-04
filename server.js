@@ -1,10 +1,11 @@
 const express = require("express");
 // const bodyParser = require("body-parser"); /* deprecated */
 const cors = require("cors");
+const Routes = require('./app/routes/index');
 
 const app = express();
 
-var corsOptions = {
+const corsOptions = {
   origin: "http://localhost:8081"
 };
 
@@ -18,21 +19,27 @@ app.use(express.urlencoded({ extended: true }));   /* bodyParser.urlencoded() is
 
 const db = require("./app/models");
 
-db.sequelize.sync();
-// // drop the table if it already exists
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-// });
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and re-sync db.");
+});
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Hello there" });
 });
 
-require("./app/routes/turorial.routes")(app);
+app.use((req, res, next) =>  {
+  res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
+});
 
-// set port, listen for requests
 const PORT = process.env.PORT || 8080;
+
+app.use('/api' , Routes);
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
