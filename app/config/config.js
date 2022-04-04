@@ -1,6 +1,7 @@
-require('dotenv').config();
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 
 module.exports = {
+
   dbConfig: {
     HOST: process.env.DB_HOST || "localhost",
     USER: process.env.DB_USER || "root",

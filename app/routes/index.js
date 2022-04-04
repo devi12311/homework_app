@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const TutorialRoutes = require('./turorial.routes.js');
-const AuthRoutes = require('./auth/auth.routes');
+const SubjectRoutes = require('./subject.routes.js');
+const AuthRoutes = require('./auth.routes');
 
     // insert global api prefix
     router.use('/auth' , AuthRoutes);
-    router.use('/tutorial' , TutorialRoutes);
+    router.use('/subject' , SubjectRoutes);
 
 module.exports = router
