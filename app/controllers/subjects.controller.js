@@ -1,7 +1,6 @@
-const Subject = require('../models/subject.model');
-
 module.exports = {
     getAll: async (req, res) => {
+        const { Subject } = req.models;
         const {userId} = req
 
         const subjects = await Subject.getAll({
@@ -14,6 +13,7 @@ module.exports = {
     },
 
     getOne: async (req, res) => {
+        const { Subject } = req.models;
         const { id } = req.params;
 
         const subject = await Subject.findByPk(id);
@@ -26,6 +26,7 @@ module.exports = {
     },
 
     create: async (req, res) => {
+        const { Subject } = req.models;
         const { userId } = req;
         const { name, startDate, endDate } = req.body;
 
@@ -46,6 +47,7 @@ module.exports = {
     },
 
     update: async (req, res) => {
+        const { Subject } = req.models;
         const { id } = req.params;
         const { name, startDate, endDate } = req.body;
 
@@ -69,6 +71,7 @@ module.exports = {
     },
 
     delete: async (req, res) => {
+        const { Subject } = req.models;
         const { id } = req.params;
 
         try {

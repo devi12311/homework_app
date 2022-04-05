@@ -1,8 +1,13 @@
 const { createSubject, updateSubject } = require('./schemas/subject.js');
 
 module.exports = {
-    createSubjectValidator: (req, res, next) => {
-        const { error } = createSubject.validate(req.body);
+    createSubjectValidator: async (req, res, next) => {
+        const { body } = req.body;
+
+        if (!body) {
+            res.status(400).send({ message: 'Body required !'});
+        }
+        const { error } = await createSubject.validate(body);
 
         if (error) {
             res.status(400).send({message : error.details[0].message})
@@ -12,8 +17,12 @@ module.exports = {
     },
 
     updateSubjectValidator: (req, res, next) => {
-        const { error } = updateSubject.validate(req.body);
+        const { body } = req.body;
+        const { error } = updateSubject.validate(body);
 
+        if (!body) {
+            res.status(400).send({ message: 'Body required !'});
+        }
         if (error) {
             res.status(400).send({message : error.details[0].message})
         }

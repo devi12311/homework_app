@@ -11,24 +11,14 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
-app.use(express.json());  /* bodyParser.json() is deprecated */
-
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));   /* bodyParser.urlencoded() is deprecated */
+app.use(express.urlencoded({ extended: true }));
 
 const db = require("./app/models");
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
-});
-
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Hello there" });
-});
+db.sequelize.sync();
 
 app.use((req, res, next) =>  {
+  req.models = db;
   res.header(
       "Access-Control-Allow-Headers",
       "x-access-token, Origin, Content-Type, Accept"

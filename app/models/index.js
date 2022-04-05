@@ -24,24 +24,24 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = User(sequelize, Sequelize);
-db.subject = Subject(sequelize , Sequelize);
-db.homework = Homework(sequelize, Sequelize);
-db.exam = Exam(sequelize, Sequelize);
-db.absence = Absence(sequelize, Sequelize);
+db.User = User(sequelize, Sequelize);
+db.Subject = Subject(sequelize , Sequelize);
+db.Homework = Homework(sequelize, Sequelize);
+db.Exam = Exam(sequelize, Sequelize);
+db.Absence = Absence(sequelize, Sequelize);
 
 
-db.subject.belongsTo(db.user, { foreignKey: 'userId' });
-db.user.hasMany(db.subject , {as : 'subjects'});
+db.Subject.belongsTo(db.User, { foreignKey: 'userId' });
+db.User.hasMany(db.Subject , {as : 'subjects'});
 
-db.exam.belongsTo(db.subject , { foreignKey: 'subjectId'});
-db.subject.hasMany(db.exam , { as: 'exams'});
+db.Exam.belongsTo(db.Subject , { foreignKey: 'subjectId'});
+db.Subject.hasMany(db.Exam , { as: 'exams'});
 
-db.homework.belongsTo(db.subject , { foreignKey: 'subjectId'});
-db.subject.hasMany(db.homework, { as: 'homeworks'});
+db.Homework.belongsTo(db.Subject , { foreignKey: 'subjectId'});
+db.Subject.hasMany(db.Homework, { as: 'homeworks'});
 
-db.user.belongsToMany(db.subject, { through: 'absences' , foreignKey: 'userId'});
-db.subject.belongsToMany(db.user, { through: 'absences' , foreignKey: 'subjectId'});
+db.User.belongsToMany(db.Subject, { through: 'absences' , foreignKey: 'userId'});
+db.Subject.belongsToMany(db.User, { through: 'absences' , foreignKey: 'subjectId'});
 
 
 // TODO associations about absences

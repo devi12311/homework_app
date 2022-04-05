@@ -1,13 +1,14 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const db = require("../../models");
+
 const { auth } = require("../../config/config");
-const User = db.user;
+
 
 const signUp = async (req, res) => {
+    const { User } = req.models;
     const { username, email , password } = req.body;
     // Save User to Database
-    const existingUser = User.findOne({
+    const existingUser = await User.findOne({
         where: {
             username: username
         }
@@ -15,6 +16,7 @@ const signUp = async (req, res) => {
 
     if (existingUser) {
         res.status(409).send({ message: "Username already exists!"})
+        return;
     }
 
     await User.create({
@@ -23,20 +25,22 @@ const signUp = async (req, res) => {
         password: bcrypt.hashSync(password, 8)
     })
 
-    res.send(200 , { message : 'User registered successfully!' });
+    res.status(200).send({ message : 'User registered successfully!' });
 };
 
-const signIn = (req, res) => {
-    const user = User.findOne({
+const signIn = async (req, res) => {
+    const { User } = req.models;
+    const { username, password } = req.body;
+    const user = await User.findOne({
         where: {
-            username: req.body.username
+            username: username
         }
     });
     if (!user) {
         return res.status(404).send({ message: "User Not found." });
     }
     const passwordIsValid = bcrypt.compareSync(
-        req.body.password,
+        password,
         user.password
     );
 
