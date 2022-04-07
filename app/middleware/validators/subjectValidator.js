@@ -6,25 +6,29 @@ module.exports = {
 
         if (!body) {
             res.status(400).send({ message: 'Body required !'});
+            return
         }
         const { error } = await createSubject.validate(body);
 
         if (error) {
             res.status(400).send({message : error.details[0].message})
+            return
         }
 
         next();
     },
 
-    updateSubjectValidator: (req, res, next) => {
+    updateSubjectValidator: async (req, res, next) => {
         const { body } = req.body;
-        const { error } = updateSubject.validate(body);
+        const { error } = await updateSubject.validate(body);
 
         if (!body) {
             res.status(400).send({ message: 'Body required !'});
+            return
         }
         if (error) {
             res.status(400).send({message : error.details[0].message})
+            return
         }
 
         next();

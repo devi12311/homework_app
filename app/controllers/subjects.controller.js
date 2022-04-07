@@ -1,7 +1,7 @@
 module.exports = {
     getAll: async (req, res) => {
         const { Subject } = req.models;
-        const {userId} = req
+        const { userId } = req;
 
         const subjects = await Subject.getAll({
             where: {
@@ -41,7 +41,7 @@ module.exports = {
             await Subject.create(subject);
             res.status(201).send({ message: 'Subject created !'});
         } catch (e) {
-            res.status(500).send({ error: e });
+            res.status(500).send({ error: 'Internal Server Error !' });
         }
 
     },
@@ -61,13 +61,10 @@ module.exports = {
             const updated = await Subject.update(subject,
                 {where : { id }}
             )
-
             res.status(200).send({ data: updated });
         } catch (e) {
-            res.status(500).send({ error: e });
+            res.status(500).send({ error: 'Internal Server Error !' });
         }
-
-
     },
 
     delete: async (req, res) => {
@@ -78,10 +75,9 @@ module.exports = {
             await Subject.destroy({
                 where: {id}
             })
-
             res.status(200).send({ message : 'Subject deleted successfully' });
         } catch (e) {
-            res.status(500).send({ error: e });
+            res.status(500).send({ error: 'Internal Server Error !' });
         }
     },
 

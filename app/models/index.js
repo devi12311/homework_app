@@ -32,18 +32,15 @@ db.Absence = Absence(sequelize, Sequelize);
 
 
 db.Subject.belongsTo(db.User, { foreignKey: 'userId' });
-db.User.hasMany(db.Subject , {as : 'subjects'});
+db.User.hasMany(db.Subject , { as : 'subjects' });
 
 db.Exam.belongsTo(db.Subject , { foreignKey: 'subjectId'});
-db.Subject.hasMany(db.Exam , { as: 'exams'});
+db.Subject.hasMany(db.Exam , { as: 'exams' });
 
-db.Homework.belongsTo(db.Subject , { foreignKey: 'subjectId'});
-db.Subject.hasMany(db.Homework, { as: 'homeworks'});
+db.Homework.belongsTo(db.Subject , { foreignKey: 'subjectId' });
+db.Subject.hasMany(db.Homework, { as: 'homeworks' });
 
-db.User.belongsToMany(db.Subject, { through: 'absences' , foreignKey: 'userId'});
-db.Subject.belongsToMany(db.User, { through: 'absences' , foreignKey: 'subjectId'});
-
-
-// TODO associations about absences
+db.User.belongsToMany(db.Subject, { through: 'absences' , foreignKey: 'userId' });
+db.Subject.belongsToMany(db.User, { through: 'absences' , foreignKey: 'subjectId' });
 
 module.exports = db;
