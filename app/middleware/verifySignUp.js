@@ -1,10 +1,9 @@
-const db = require("../models");
-const User = db.user;
 checkDuplicateUsernameOrEmail = async (req, res, next) => {
-    // Username
+    const { User } = req.models;
+    const { username, email } = req.body;
     const user = await User.findOne({
         where: {
-            username: req.body.username
+            username
         }
     })
     if (user) {
@@ -14,13 +13,13 @@ checkDuplicateUsernameOrEmail = async (req, res, next) => {
         return;
     }
     // Email
-    const email = await User.findOne({
+    const userEmail = await User.findOne({
         where: {
-            email: req.body.email
+            email
         }
     })
 
-    if (email) {
+    if (userEmail) {
         res.status(400).send({
             message: "Failed! Email is already in use!"
         });
