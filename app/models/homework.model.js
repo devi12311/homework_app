@@ -9,7 +9,7 @@ const Homework = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         subjectId: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
         },
         description: {
             type: Sequelize.TEXT

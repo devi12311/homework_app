@@ -3,26 +3,32 @@ module.exports = {
         const { Subject } = req.models;
         const { userId } = req;
 
-        const subjects = await Subject.getAll({
+        const subjects = await Subject.findAll({
             where: {
                 userId
             }
         });
 
-        res.status(200).send({ data: subjects });
+        return res.status(200).send({ data: subjects });
     },
 
     getOne: async (req, res) => {
         const { Subject } = req.models;
+        const { userId } = req;
         const { id } = req.params;
 
-        const subject = await Subject.findByPk(id);
+        const subject = await Subject.findOne({
+            where: {
+                id,
+                userId
+            }
+        });
 
         if (!subject) {
-            res.status(404).send({ message: 'Not found !'})
+            return res.status(404).send({ message: 'Not found !'})
         }
 
-        res.status(200).send(subject);
+        return res.status(200).send({data: subject});
     },
 
     create: async (req, res) => {
@@ -39,9 +45,9 @@ module.exports = {
 
         try {
             await Subject.create(subject);
-            res.status(201).send({ message: 'Subject created !'});
+            return res.status(201).send({ message: 'Subject created !'});
         } catch (e) {
-            res.status(500).send({ error: 'Internal Server Error !' });
+            return res.status(500).send({ error: 'Internal Server Error !' });
         }
 
     },
@@ -49,35 +55,57 @@ module.exports = {
     update: async (req, res) => {
         const { Subject } = req.models;
         const { id } = req.params;
+        const { userId } = req;
         const { name, startDate, endDate } = req.body;
 
-        const subject = {
+        const subject = Subject.findOne({
+            where: {
+                id,
+                userId
+            }
+        });
+
+        if (!subject) {
+            return res.status(404).send({ message: 'Subject not found!'});
+        }
+        const subjectCreate = {
             name,
             startDate,
             endDate
         }
 
         try {
-            const updated = await Subject.update(subject,
+            const updated = await Subject.update(subjectCreate,
                 {where : { id }}
             )
-            res.status(200).send({ data: updated });
+            return res.status(200).send({ data: updated });
         } catch (e) {
-            res.status(500).send({ error: 'Internal Server Error !' });
+            return res.status(500).send({ error: 'Internal Server Error !' });
         }
     },
 
     delete: async (req, res) => {
         const { Subject } = req.models;
         const { id } = req.params;
+        const { userId } = req;
 
+        const subject = Subject.findOne({
+            where: {
+                id,
+                userId
+            }
+        });
+
+        if (!subject) {
+            return res.status(404).send({ message: 'Subject does not exist !'});
+        }
         try {
             await Subject.destroy({
                 where: {id}
             })
-            res.status(200).send({ message : 'Subject deleted successfully' });
+            return res.status(200).send({ message : 'Subject deleted successfully' });
         } catch (e) {
-            res.status(500).send({ error: 'Internal Server Error !' });
+            return res.status(500).send({ error: 'Internal Server Error !' });
         }
     },
 

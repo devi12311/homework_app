@@ -10,7 +10,16 @@ module.exports = {
                 message: "Unauthorized!"
             });
         }
-        jwt.verify(header, auth.secret, (err, decoded) => {
+
+        const [bearer,token] = header.split(' ');
+
+        if (!bearer) {
+            return res.status(401).send({
+                message: "Unauthorized!"
+            });
+        }
+
+        jwt.verify(token, auth.secret, (err, decoded) => {
             if (err) {
                 return res.status(401).send({
                     message: "Unauthorized!"

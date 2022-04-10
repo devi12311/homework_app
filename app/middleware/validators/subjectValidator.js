@@ -2,35 +2,29 @@ const { createSubject, updateSubject } = require('./schemas/subject.js');
 
 module.exports = {
     createSubjectValidator: async (req, res, next) => {
-        const { body } = req.body;
+        const { name, startDate, endDate } = req.body;
 
-        if (!body) {
-            res.status(400).send({ message: 'Body required !'});
-            return
+        if (!req.body) {
+            return res.status(400).send({ message: 'Body required !'});
         }
-        const { error } = await createSubject.validate(body);
+        const { error } = await createSubject.validate({name,startDate,endDate});
 
         if (error) {
-            res.status(400).send({message : error.details[0].message})
-            return
+            return res.status(400).send({message : error.details[0].message})
         }
-
         next();
     },
 
     updateSubjectValidator: async (req, res, next) => {
-        const { body } = req.body;
-        const { error } = await updateSubject.validate(body);
+        const { name, startDate, endDate } = req.body;
+        const { error } = await updateSubject.validate({name,startDate,endDate});
 
-        if (!body) {
-            res.status(400).send({ message: 'Body required !'});
-            return
+        if (!req.body) {
+            return res.status(400).send({ message: 'Body required !'});
         }
         if (error) {
-            res.status(400).send({message : error.details[0].message})
-            return
+            return res.status(400).send({message : error.details[0].message})
         }
-
         next();
     },
 }

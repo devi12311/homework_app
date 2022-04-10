@@ -15,8 +15,7 @@ const signUp = async (req, res) => {
     })
 
     if (existingUser) {
-        res.status(409).send({ message: "Username already exists!"})
-        return;
+       return res.status(409).send({ message: "Username already exists!"})
     }
 
     await User.create({
@@ -25,7 +24,7 @@ const signUp = async (req, res) => {
         password: bcrypt.hashSync(password, 8)
     })
 
-    res.status(200).send({ message : 'User registered successfully!' });
+    return res.status(200).send({ message : 'User registered successfully!' });
 };
 
 const signIn = async (req, res) => {
