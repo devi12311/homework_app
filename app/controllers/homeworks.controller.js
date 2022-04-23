@@ -25,13 +25,24 @@ module.exports = {
 
     getOne: async (req, res) => {
         const { id } = req.params;
-        const { Homework, Subject } = req.models;
+        const { Homework, Subject, User } = req.models;
         const { userId } = req
 
         const homework = await Homework.findOne({
             where: {
-                id,
-                userId
+                id
+            },
+            include: {
+                model:Subject,
+                attributes:[],
+                include: {
+                    model: User,
+                    required: true,
+                    where: {
+                        id: userId
+                    },
+                    attributes: []
+                }
             }
         })
 
@@ -39,12 +50,7 @@ module.exports = {
             return res.status(404).send({message: 'Homework not found!'})
         }
 
-        const subjectId = homework.subjectId;
-        const subject = Subject.findByPk(subjectId)
-
-
-        return subject.userId === userId ?  res.status(200).send({data: homework})
-            : res.status(404).send({message: 'Homework not found!'});
+        return res.status(200).send({data: homework});
     },
 
     create: async (req, res) => {
@@ -73,7 +79,7 @@ module.exports = {
     },
 
     update: async (req, res) => {
-        const { Homework } = req.models;
+        const { Homework, Subject, User } = req.models;
         const { id } = req.params ;
         const { userId } = req
         const {
@@ -88,8 +94,19 @@ module.exports = {
 
         const homework = await Homework.findOne({
             where: {
-                id,
-                userId
+                id
+            },
+            include: {
+                model:Subject,
+                attributes:[],
+                include: {
+                    model: User,
+                    required: true,
+                    where: {
+                        id: userId
+                    },
+                    attributes: []
+                }
             }
         });
 
@@ -98,12 +115,7 @@ module.exports = {
         }
 
         try{
-            await Homework.update({title, subjectId, description, document, status, startDate, endDate},
-                {
-                    where: {
-                        id
-                    }
-                });
+            await homework.save({title, subjectId, description, document, status, startDate, endDate});
             return res.status(200).send({ message: 'Homework updated successfully!'});
         } catch (e) {
             return res.status(500).send({ message: 'Internal Server Error !'})
@@ -113,7 +125,7 @@ module.exports = {
     },
 
     delete: async (req, res) => {
-        const { Homework, Subject } = req.models;
+        const { Homework, Subject, User } = req.models;
         const { userId } = req;
         const { id } = req.params ;
 
@@ -121,20 +133,25 @@ module.exports = {
           const homework = await Homework.findOne({
               where: {
                   id
+              },
+              include: {
+                  model:Subject,
+                  attributes:[],
+                  include: {
+                      model: User,
+                      required: true,
+                      where: {
+                          id: userId
+                      },
+                      attributes: []
+                  }
               }
           });
 
           if (!homework) {
               return res.status(404).send({ message: 'Homework not found !'})
           }
-
-          const subjectId = homework.subjectId;
-          const subject = Subject.findByPk(subjectId);
-
-          if (subject.userId !== userId) {
-              return res.status(404).send({ message: 'Homework not found !'})
-          }
-          await Homework.destroy(id);
+          await homework.destroy();
           return res.status(200).send({ message: 'Homework deleted successfully!'})
         } catch (e) {
             return res.status(500).send({ message: 'Internal Server Error !'})

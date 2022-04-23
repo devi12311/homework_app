@@ -100,9 +100,7 @@ module.exports = {
             return res.status(404).send({ message: 'Subject does not exist !'});
         }
         try {
-            await Subject.destroy({
-                where: {id}
-            })
+            await subject.destroy();
             return res.status(200).send({ message : 'Subject deleted successfully' });
         } catch (e) {
             return res.status(500).send({ error: 'Internal Server Error !' });

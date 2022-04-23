@@ -10,6 +10,9 @@ const Absence  = (sequelize, Sequelize) => {
         },
         subjectId: {
             type: Sequelize.STRING
+        },
+        date: {
+            type: Sequelize.DATE
         }
     });
 };
