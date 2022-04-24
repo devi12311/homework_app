@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start-dev": "nodemon server.js",
-    "start-staging": "nodemon server.js"
+    "start-staging": "nodemon server.js",
+    "start-production": "node server.js"
   },
   "author": "devis",
   "dependencies": {
