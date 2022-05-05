@@ -17,6 +17,9 @@ module.exports = {
                         attributes: []
                     }
                 }
+            ],
+            order: [
+                ['endDate', 'DESC']
             ]
         });
 

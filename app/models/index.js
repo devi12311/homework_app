@@ -43,4 +43,8 @@ db.Subject.hasMany(db.Homework, { as: 'homeworks' });
 db.User.belongsToMany(db.Subject, { through: 'absences' , foreignKey: 'userId' });
 db.Subject.belongsToMany(db.User, { through: 'absences' , foreignKey: 'subjectId' });
 
+db.Subject.hasMany(db.Absence, { as: 'absences' });
+db.User.hasMany(db.Absence, { as: 'absences' });
+
+
 module.exports = db;

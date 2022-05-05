@@ -6,10 +6,12 @@ const Absence  = (sequelize, Sequelize) => {
             autoIncrement: true
         },
         userId: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            unique: false
         },
         subjectId: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            unique: false
         },
         date: {
             type: Sequelize.DATE

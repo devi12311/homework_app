@@ -43,6 +43,7 @@ module.exports = {
             await Absence.create({subjectId, userId, date});
             return res.status(201).send({ message: 'Absence registered successfully !'});
         } catch (e) {
+            console.log(e)
             return res.status(500).send({ message: 'Internal Server Error !'})
         }
     }
