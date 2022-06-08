@@ -8,6 +8,9 @@ const Exam  = (sequelize, Sequelize) => {
         subjectId: {
             type: Sequelize.INTEGER
         },
+        userId: {
+            type: Sequelize.INTEGER
+        },
         grade: {
           type: Sequelize.STRING,
           defaultValue: null

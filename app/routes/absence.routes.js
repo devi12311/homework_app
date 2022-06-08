@@ -4,7 +4,7 @@ const { createAbsenceValidator } = require('../middleware/validators/absenceVali
 const { verifyToken } = require('../middleware/authJwt');
 
 AbsenceRoutes.use(verifyToken);
-AbsenceRoutes.post("/", createAbsenceValidator, absence.create);
+AbsenceRoutes.post("/", absence.create);
 AbsenceRoutes.get("/", absence.getAll);
 AbsenceRoutes.get("/:id", absence.getOne);
 

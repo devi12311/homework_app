@@ -11,6 +11,9 @@ const Homework = (sequelize, Sequelize) => {
         subjectId: {
             type: Sequelize.INTEGER,
         },
+        userId: {
+            type: Sequelize.INTEGER,
+        },
         description: {
             type: Sequelize.TEXT
         },

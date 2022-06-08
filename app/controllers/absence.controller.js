@@ -9,7 +9,7 @@ module.exports = {
             }
         });
 
-        return res.status(200).send({data: absences});
+        return res.status(200).send(absences);
     },
 
     getOne: async (req, res) => {
@@ -28,7 +28,7 @@ module.exports = {
             return res.status(404).send({message: 'Absence not found!'})
         }
 
-        return res.status(200).send({data: absence});
+        return res.status(200).send(absence);
     },
 
     create: async (req, res) => {

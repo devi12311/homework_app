@@ -4,7 +4,7 @@ const { verifyToken } = require('../middleware/authJwt');
 
 DashboardRoutes.use(verifyToken);
 
-DashboardRoutes.get("/", dashboard.getSubjectsHomeworkAndAbsences);
+DashboardRoutes.get("/", dashboard.dashboardData);
 
 
 
