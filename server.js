@@ -21,7 +21,7 @@ app.use((err, req, res, next) => {
   next();
 });
 
-db.sequelize.sync();
+db.sequelize.sync({force: true});
 
 app.use((req, res, next) =>  {
   req.models = db;
